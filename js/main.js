@@ -41,29 +41,25 @@ document
 
 /* ANIMATION DES PROJETS */
 
-const projects = document.querySelectorAll(".project");
+document
+    .querySelectorAll(".project")
+    .forEach((project) => {
 
-projects.forEach((project) => {
+        project.addEventListener("mouseenter", () => {
+            project.style.transform = "translateY(-7px)";
+        });
 
-    project.addEventListener("mouseenter", () => {
-
-        project.style.transform = "translateY(-7px)";
-
-    });
-
-
-    project.addEventListener("mouseleave", () => {
-
-        project.style.transform = "translateY(0)";
+        project.addEventListener("mouseleave", () => {
+            project.style.transform = "translateY(0)";
+        });
 
     });
 
-});
 
-
-/* SCROLL */
+/* APPARITION DES SECTIONS */
 
 const sections = document.querySelectorAll("section");
+
 
 const observer = new IntersectionObserver(
 
