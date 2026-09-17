@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SOSO — Roblox Scripter & UI Designer</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --bg:#e9e4d8;
+    --ink:#171717;
+    --acid:#d8ff3e;
+    --pink:#ff5b7f;
+    --blue:#5d7cff;
+    --line:rgba(23,23,23,.18);
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Space Grotesk",sans-serif;
+    overflow-x:hidden;
+}
+
+/* CURSEUR */
+
+.cursor{
+    position:fixed;
+    width:13px;
+    height:13px;
+    background:var(--ink);
+    border-radius:50%;
+    pointer-events:none;
+    z-index:9999;
+    transform:translate(-50%,-50%);
+    transition:
+        width .2s ease,
+        height .2s ease,
+        background .2s ease;
+}
+
+.cursor.big{
+    width:55px;
+    height:55px;
+    background:var(--acid);
+    mix-blend-mode:multiply;
+}
+
+/* TOP BAR */
+
+.top{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:76px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 35px;
+    border-bottom:1px solid var(--line);
+    background:rgba(233,228,216,.88);
+    backdrop-filter:blur(14px);
+    z-index:100;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:700;
+    letter-spacing:-2px;
+}
+
+.logo span{
+    color:var(--pink);
+}
+
+.nav{
+    display:flex;
+    gap:30px;
+}
+
+.nav a{
+    color:var(--ink);
+    text-decoration:none;
+    font-family:"DM Mono",monospace;
+    font-size:12px;
+    text-transform:uppercase;
+    position:relative;
+}
+
+.nav a::after{
+    content:"";
+    position:absolute;
+    bottom:-6px;
+    left:0;
+    width:0;
+    height:2px;
+    background:var(--pink);
+    transition:.25s;
+}
+
+.nav a:hover::after{
+    width:100%;
+}
+
+.status{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    font-family:"DM Mono",monospace;
+    font-size:10px;
+    text-transform:uppercase;
+}
+
+.status i{
+    width:8px;
+    height:8px;
+    background:#7bcf45;
+    border-radius:50%;
+    box-shadow:0 0 0 5px rgba(123,207,69,.13);
+}
+
+/* HERO */
+
+.hero{
+    min-height:100vh;
+    padding:150px 5vw 70px;
+    position:relative;
+    display:grid;
+    grid-template-columns:1fr 280px;
+    align-items:center;
+    border-bottom:1px solid var(--line);
+}
+
+.hero-number{
+    position:absolute;
+    top:110px;
+    right:40px;
+    font-family:"DM Mono",monospace;
+    font-size:11px;
+}
+
+.vertical{
+    position:absolute;
+    left:25px;
+    top:50%;
+    transform:rotate(-90deg) translateX(50%);
+    transform-origin:left;
+    font-family:"DM Mono",monospace;
+    font-size:10px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+}
+
+.hero-main{
+    max-width:900px;
+}
+
+.kicker{
+    font-family:"DM Mono",monospace;
+    font-size:12px;
+    margin-bottom:25px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.kicker::before{
+    content:"";
+    width:32px;
+    height:1px;
+    background:var(--ink);
+}
+
+.hero h1{
+    font-size:clamp(70px,11vw,165px);
+    line-height:.78;
+    letter-spacing:-9px;
+    font-weight:700;
+    text-transform:uppercase;
+}
+
+.hero h1 .outline{
+    color:transparent;
+    -webkit-text-stroke:2px var(--ink);
+}
+
+.hero h1 .pink{
+    color:var(--pink);
+}
+
+.hero-bottom{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    margin-top:60px;
+    max-width:850px;
+}
+
+.hero-description{
+    max-width:430px;
+    font-size:16px;
+    line-height:1.5;
+}
+
+.hero-description strong{
+    font-weight:600;
+}
+
+.cta{
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
+    padding:17px 22px;
+    background:var(--ink);
+    color:white;
+    text-decoration:none;
+    font-family:"DM Mono",monospace;
+    font-size:11px;
+    transition:.25s;
+}
+
+.cta:hover{
+    background:var(--pink);
+    transform:translateY(-4px);
+}
+
+/* OBJET VISUEL */
+
+.visual{
+    height:420px;
+    position:relative;
+}
+
+.visual-box{
+    position:absolute;
+    width:230px;
+    height:300px;
+    right:10px;
+    top:45px;
+    background:var(--acid);
+    border:2px solid var(--ink);
+    transform:rotate(7deg);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:12px 12px 0 var(--ink);
+}
+
+.visual-box::before{
+    content:"SOSO / 026";
+    position:absolute;
+    top:13px;
+    left:15px;
+    font-family:"DM Mono",monospace;
+    font-size:9px;
+}
+
+.visual-word{
+    font-size:80px;
+    line-height:.75;
+    font-weight:700;
+    letter-spacing:-7px;
+    transform:rotate(-90deg);
+}
+
+.sticker{
+    position:absolute;
+    left:0;
+    bottom:45px;
+    width:115px;
+    height:115px;
+    background:var(--pink);
+    border:2px solid var(--ink);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font-family:"DM Mono",monospace;
+    font-size:10px;
+    transform:rotate(-12deg);
+    animation:float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+    50%{transform:rotate(-7deg) translateY(-10px)}
+}
+
+/* MARQUEE */
+
+.marquee{
+    overflow:hidden;
+    border-bottom:1px solid var(--line);
+    border-top:1px solid var(--line);
+    white-space:nowrap;
+    padding:14px 0;
+}
+
+.marquee-track{
+    display:inline-block;
+    animation:scroll 18s linear infinite;
+}
+
+.marquee span{
+    font-family:"DM Mono",monospace;
+    font-size:13px;
+    margin:0 28px;
+}
+
+.marquee b{
+    color:var(--pink);
+}
+
+@keyframes scroll{
+    from{transform:translateX(0)}
+    to{transform:translateX(-50%)}
+}
+
+/* SECTION */
+
+.section{
+    padding:120px 5vw;
+    border-bottom:1px solid var(--line);
+}
+
+.section-head{
+    display:grid;
+    grid-template-columns:180px 1fr;
+    gap:40px;
+    margin-bottom:80px;
+}
+
+.section-label{
+    font-family:"DM Mono",monospace;
+    font-size:11px;
+    text-transform:uppercase;
+}
+
+.section-title{
+    font-size:clamp(45px,7vw,100px);
+    line-height:.85;
+    letter-spacing:-5px;
+    max-width:800px;
+}
+
+/* SERVICES */
+
+.services{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    border-top:1px solid var(--ink);
+    border-left:1px solid var(--ink);
+}
+
+.service{
+    min-height:320px;
+    padding:30px;
+    border-right:1px solid var(--ink);
+    border-bottom:1px solid var(--ink);
+    position:relative;
+    transition:.3s;
+}
+
+.service:hover{
+    background:var(--acid);
+    transform:translate(-5px,-5px);
+}
+
+.service-num{
+    font-family:"DM Mono",monospace;
+    font-size:11px;
+}
+
+.service h3{
+    margin-top:80px;
+    font-size:34px;
+    letter-spacing:-2px;
+}
+
+.service p{
+    margin-top:18px;
+    max-width:300px;
+    line-height:1.5;
+    font-size:14px;
+}
+
+.service-arrow{
+    position:absolute;
+    right:25px;
+    bottom:25px;
+    font-size:28px;
+}
+
+/* PROJECTS */
+
+.projects{
+    display:grid;
+    grid-template-columns:1.4fr .8fr;
+    gap:20px;
+}
+
+.project{
+    min-height:430px;
+    border:1px solid var(--ink);
+    position:relative;
+    overflow:hidden;
+    background:#ded8cb;
+}
+
+.project:nth-child(2){
+    background:var(--blue);
+}
+
+.project:nth-child(3){
+    background:var(--pink);
+}
+
+.project:nth-child(4){
+    background:var(--acid);
+}
+
+.project-big{
+    grid-row:span 2;
+}
+
+.project-info{
+    position:absolute;
+    left:22px;
+    bottom:22px;
+}
+
+.project-tag{
+    display:inline-block;
+    background:var(--ink);
+    color:white;
+    padding:6px 9px;
+    font-family:"DM Mono",monospace;
+    font-size:9px;
+    margin-bottom:10px;
+}
+
+.project h3{
+    font-size:38px;
+    letter-spacing:-2px;
+}
+
+.project-shape{
+    position:absolute;
+    width:210px;
+    height:210px;
+    border:2px solid var(--ink);
+    right:60px;
+    top:70px;
+    transform:rotate(23deg);
+}
+
+.project-big .project-shape{
+    width:330px;
+    height:330px;
+    border-radius:50%;
+    top:45px;
+    right:100px;
+}
+
+.project-shape::after{
+    content:"";
+    position:absolute;
+    width:100%;
+    height:100%;
+    border:2px solid var(--ink);
+    transform:rotate(35deg);
+}
+
+/* PRIX */
+
+.price-wrap{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    border-top:1px solid var(--ink);
+    border-left:1px solid var(--ink);
+}
+
+.price{
+    padding:35px;
+    min-height:420px;
+    border-right:1px solid var(--ink);
+    border-bottom:1px solid var(--ink);
+    position:relative;
+}
+
+.price:nth-child(2){
+    background:var(--acid);
+}
+
+.price-number{
+    font-family:"DM Mono",monospace;
+    font-size:11px;
+}
+
+.price h3{
+    margin-top:65px;
+    font-size:32px;
+}
+
+.amount{
+    font-size:55px;
+    font-weight:700;
+    letter-spacing:-4px;
+    margin-top:20px;
+}
+
+.amount small{
+    font-family:"DM Mono",monospace;
+    font-size:11px;
+    letter-spacing:0;
+}
+
+.price ul{
+    list-style:none;
+    margin-top:25px;
+}
+
+.price li{
+    font-family:"DM Mono",monospace;
+    font-size:11px;
+    padding:8px 0;
+    border-bottom:1px solid var(--line);
+}
+
+.price-link{
+    position:absolute;
+    bottom:25px;
+    left:35px;
+    right:35px;
+    text-decoration:none;
+    color:var(--ink);
+    border:1px solid var(--ink);
+    padding:14px;
+    text-align:center;
+    font-family:"DM Mono",monospace;
+    font-size:10px;
+}
+
+.price-link:hover{
+    background:var(--ink);
+    color:white;
+}
+
+/* CTA */
+
+.final{
+    min-height:70vh;
+    padding:120px 5vw;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+}
+
+.final-small{
+    font-family:"DM Mono",monospace;
+    font-size:11px;
+    margin-bottom:30px;
+}
+
+.final h2{
+    font-size:clamp(70px,12vw,170px);
+    line-height:.76;
+    letter-spacing:-9px;
+    max-width:1100px;
+}
+
+.final h2 span{
+    color:var(--pink);
+}
+
+.final-contact{
+    margin-top:60px;
+}
+
+.final-contact a{
+    color:var(--ink);
+    text-decoration:none;
+    border-bottom:2px solid var(--pink);
+    font-size:20px;
+}
+
+/* FOOTER */
+
+footer{
+    border-top:1px solid var(--line);
+    padding:25px 35px;
+    display:flex;
+    justify-content:space-between;
+    font-family:"DM Mono",monospace;
+    font-size:9px;
+    text-transform:uppercase;
+}
+
+/* MOBILE */
+
+@media(max-width:800px){
+
+    .top{
+        padding:0 20px;
+    }
+
+    .nav{
+        display:none;
+    }
+
+    .status{
+        font-size:8px;
+    }
+
+    .hero{
+        padding:130px 25px 70px;
+        display:block;
+    }
+
+    .hero h1{
+        font-size:19vw;
+        letter-spacing:-5px;
+    }
+
+    .hero-bottom{
+        display:block;
+        margin-top:50px;
+    }
+
+    .hero-description{
+        margin-bottom:30px;
+    }
+
+    .visual{
+        height:350px;
+        margin-top:30px;
+    }
+
+    .visual-box{
+        right:20px;
+    }
+
+    .section{
+        padding:80px 25px;
+    }
+
+    .section-head{
+        display:block;
+        margin-bottom:50px;
+    }
+
+    .section-title{
+        margin-top:25px;
+    }
+
+    .services,
+    .price-wrap,
+    .projects{
+        grid-template-columns:1fr;
+    }
+
+    .project-big{
+        grid-row:auto;
+    }
+
+    .project{
+        min-height:350px;
+    }
+
+    .final{
+        padding:90px 25px;
+    }
+
+    .final h2{
+        font-size:20vw;
+        letter-spacing:-5px;
+    }
+
+    footer{
+        padding:20px;
+        gap:20px;
+        flex-direction:column;
+    }
+
+    .cursor{
+        display:none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="cursor"></div>
+
+<header class="top">
+    <div class="logo">SO<span>S</span>O.</div>
+
+    <nav class="nav">
+        <a href="#services">Services</a>
+        <a href="#projects">Projets</a>
+        <a href="#prices">Tarifs</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="status">
+        <i></i>
+        Disponible
+    </div>
+</header>
+
+
+<main>
+
+<section class="hero">
+
+    <div class="hero-number">001 / 026</div>
+
+    <div class="vertical">
+        ROBLOX / SCRIPTING / UI DESIGN
+    </div>
+
+    <div class="hero-main">
+
+        <div class="kicker">
+            SOSO.DEV — CREATIVE WORK
+        </div>
+
+        <h1>
+            JE<br>
+            <span class="outline">FAIS</span><br>
+            <span class="pink">MIEUX.</span>
+        </h1>
+
+        <div class="hero-bottom">
+
+            <p class="hero-description">
+                Je crée des <strong>systèmes Roblox</strong> et des
+                <strong>interfaces UI</strong> pensés pour être
+                beaux, fonctionnels et différents.
+            </p>
+
+            <a href="#projects" class="cta">
+                VOIR LE TRAVAIL →
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="visual">
+
+        <div class="visual-box">
+            <div class="visual-word">
+                S<br>
+                O<br>
+                S<br>
+                O
+            </div>
+        </div>
+
+        <div class="sticker">
+            ROBLOX<br>
+            SCRIPT<br>
+            + UI
+        </div>
+
+    </div>
+
+</section>
+
+
+<div class="marquee">
+    <div class="marquee-track">
+        <span>ROBLOX SCRIPTING</span><b>✦</b>
+        <span>UI DESIGN</span><b>✦</b>
+        <span>SYSTEMS</span><b>✦</b>
+        <span>CREATIVE DEVELOPMENT</span><b>✦</b>
+        <span>ROBLOX SCRIPTING</span><b>✦</b>
+        <span>UI DESIGN</span><b>✦</b>
+        <span>SYSTEMS</span><b>✦</b>
+        <span>CREATIVE DEVELOPMENT</span><b>✦</b>
+    </div>
+</div>
+
+
+<section class="section" id="services">
+
+    <div class="section-head">
+        <div class="section-label">02 — SERVICES</div>
+
+        <h2 class="section-title">
+            PAS JUSTE<br>
+            DU CODE.
+        </h2>
+    </div>
+
+    <div class="services">
+
+        <article class="service">
+            <div class="service-num">01 / SCRIPTING</div>
+            <h3>Scripting</h3>
+            <p>
+                Systèmes Roblox personnalisés, propres et adaptés
+                au fonctionnement réel de ton jeu.
+            </p>
+            <div class="service-arrow">↗</div>
+        </article>
+
+        <article class="service">
+            <div class="service-num">02 / INTERFACE</div>
+            <h3>UI Design</h3>
+            <p>
+                Interfaces originales pensées pour l'identité
+                visuelle de ton expérience.
+            </p>
+            <div class="service-arrow">↗</div>
+        </article>
+
+        <article class="service">
+            <div class="service-num">03 / FULL SYSTEM</div>
+            <h3>Système</h3>
+            <p>
+                UI + scripting réunis dans un système complet,
+                prêt à intégrer dans ton projet.
+            </p>
+            <div class="service-arrow">↗</div>
+        </article>
+
+    </div>
+
+</section>
+
+
+<section class="section" id="projects">
+
+    <div class="section-head">
+        <div class="section-label">03 — SELECTED WORK</div>
+
+        <h2 class="section-title">
+            CE QUE<br>
+            J'AI CRÉÉ.
+        </h2>
+    </div>
+
+    <div class="projects">
+
+        <article class="project project-big">
+            <div class="project-shape"></div>
+
+            <div class="project-info">
+                <div class="project-tag">SYSTEM / UI</div>
+                <h3>Inspection System</h3>
+            </div>
+        </article>
+
+        <article class="project">
+            <div class="project-shape"></div>
+
+            <div class="project-info">
+                <div class="project-tag">SCRIPTING</div>
+                <h3>Generator</h3>
+            </div>
+        </article>
+
+        <article class="project">
+            <div class="project-shape"></div>
+
+            <div class="project-info">
+                <div class="project-tag">UI DESIGN</div>
+                <h3>Interface</h3>
+            </div>
+        </article>
+
+        <article class="project">
+            <div class="project-shape"></div>
+
+            <div class="project-info">
+                <div class="project-tag">SYSTEM</div>
+                <h3>Custom Work</h3>
+            </div>
+        </article>
+
+    </div>
+
+</section>
+
+
+<section class="section" id="prices">
+
+    <div class="section-head">
+        <div class="section-label">04 — PRICING</div>
+
+        <h2 class="section-title">
+            SIMPLE.<br>
+            CLAIR.
+        </h2>
+    </div>
+
+    <div class="price-wrap">
+
+        <article class="price">
+            <div class="price-number">01 / STARTER</div>
+
+            <h3>Starter</h3>
+
+            <div class="amount">
+                1200 <small>R$</small>
+            </div>
+
+            <ul>
+                <li>01 système simple</li>
+                <li>UI basique incluse</li>
+                <li>1 révision</li>
+            </ul>
+
+            <a href="#contact" class="price-link">
+                DEMANDER →
+            </a>
+        </article>
+
+
+        <article class="price">
+            <div class="price-number">02 / STANDARD</div>
+
+            <h3>Standard</h3>
+
+            <div class="amount">
+                2000 <small>R$</small>
+            </div>
+
+            <ul>
+                <li>Système personnalisé</li>
+                <li>UI personnalisée</li>
+                <li>1 révision</li>
+            </ul>
+
+            <a href="#contact" class="price-link">
+                DEMANDER →
+            </a>
+        </article>
+
+
+        <article class="price">
+            <div class="price-number">03 / PRO</div>
+
+            <h3>Pro</h3>
+
+            <div class="amount">
+                3300 <small>R$</small>
+            </div>
+
+            <ul>
+                <li>Système avancé</li>
+                <li>UI complète</li>
+                <li>Support après livraison</li>
+            </ul>
+
+            <a href="#contact" class="price-link">
+                DEMANDER →
+            </a>
+        </article>
+
+    </div>
+
+</section>
+
+
+<section class="final" id="contact">
+
+    <div class="final-small">
+        05 — START SOMETHING
+    </div>
+
+    <h2>
+        UNE IDÉE ?<br>
+        <span>ON LA FAIT.</span>
+    </h2>
+
+    <div class="final-contact">
+        <a href="#">
+            Me contacter →
+        </a>
+    </div>
+
+</section>
+
+</main>
+
+
+<footer>
+    <span>© 2026 SOSO.DEV</span>
+    <span>ROBLOX SCRIPTING / UI DESIGN</span>
+    <span>MADE IN FRANCE</span>
+</footer>
+
+
+<script>
+
+const cursor = document.querySelector(".cursor");
+
+document.addEventListener("mousemove", e => {
+    cursor.style.left = e.clientX + "px";
+    cursor.style.top = e.clientY + "px";
+});
+
+document.querySelectorAll("a, .service, .project").forEach(el => {
+
+    el.addEventListener("mouseenter", () => {
+        cursor.classList.add("big");
+    });
+
+    el.addEventListener("mouseleave", () => {
+        cursor.classList.remove("big");
+    });
+
+});
+
+</script>
+
+</body>
+</html>
