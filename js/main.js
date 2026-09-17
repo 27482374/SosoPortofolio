@@ -1,10 +1,7 @@
-/* =========================
-   CURSEUR CUSTOM
-========================= */
-
 const cursor = document.querySelector(".cursor");
-const cursorLabel = document.querySelector(".cursor-label");
 
+
+/* CURSEUR */
 
 document.addEventListener("mousemove", (event) => {
 
@@ -13,70 +10,58 @@ document.addEventListener("mousemove", (event) => {
     cursor.style.left = event.clientX + "px";
     cursor.style.top = event.clientY + "px";
 
-    if (cursorLabel) {
-        cursorLabel.style.left = event.clientX + "px";
-        cursorLabel.style.top = event.clientY + "px";
-    }
-
 });
 
 
-/* Agrandissement du curseur */
+/* CURSEUR INTERACTIF */
 
 document
-    .querySelectorAll("a, .service, .price")
+    .querySelectorAll("a, .service, .project")
     .forEach((element) => {
 
         element.addEventListener("mouseenter", () => {
 
-            cursor.classList.add("big");
+            if (cursor) {
+                cursor.classList.add("big");
+            }
 
         });
 
 
         element.addEventListener("mouseleave", () => {
 
-            cursor.classList.remove("big");
+            if (cursor) {
+                cursor.classList.remove("big");
+            }
 
         });
 
     });
 
 
-/* Curseur spécial sur les projets */
+/* ANIMATION DES PROJETS */
 
 document
     .querySelectorAll(".project")
     .forEach((project) => {
 
         project.addEventListener("mouseenter", () => {
-
-            cursor.classList.add("big");
-
-            document.body.classList.add("cursor-project");
-
+            project.style.transform = "translateY(-7px)";
         });
 
-
         project.addEventListener("mouseleave", () => {
-
-            cursor.classList.remove("big");
-
-            document.body.classList.remove("cursor-project");
-
+            project.style.transform = "translateY(0)";
         });
 
     });
 
 
-/* =========================
-   ANIMATIONS AU SCROLL
-========================= */
+/* APPARITION DES SECTIONS */
 
-const revealElements = document.querySelectorAll(".reveal");
+const sections = document.querySelectorAll("section");
 
 
-const revealObserver = new IntersectionObserver(
+const observer = new IntersectionObserver(
 
     (entries) => {
 
@@ -93,53 +78,14 @@ const revealObserver = new IntersectionObserver(
     },
 
     {
-        threshold:0.12
+        threshold:0.08
     }
 
 );
 
 
-revealElements.forEach((element) => {
+sections.forEach((section) => {
 
-    revealObserver.observe(element);
+    observer.observe(section);
 
 });
-
-
-/* =========================
-   ANIMATION DES CARTES
-========================= */
-
-document
-    .querySelectorAll(".service, .price")
-    .forEach((card) => {
-
-        card.addEventListener("mouseenter", () => {
-
-            card.style.transition = "transform .3s ease";
-
-        });
-
-    });
-
-
-/* =========================
-   BACK TO TOP
-========================= */
-
-document
-    .querySelectorAll('a[href="#"]')
-    .forEach((link) => {
-
-        link.addEventListener("click", (event) => {
-
-            event.preventDefault();
-
-            window.scrollTo({
-                top:0,
-                behavior:"smooth"
-            });
-
-        });
-
-    });
